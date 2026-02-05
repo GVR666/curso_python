@@ -15,7 +15,7 @@ def display_board(dboard:dict)->None:
 def player_turn(player:str, dboard:dict)->bool:
     """ Ask player for their turn
     """
-    valid_move = False 
+    valid_move = False
     user_input = input(f"Player {player}, enter your move (0-8): ")
     user_input = int(user_input)
     print(f"Value entered: {user_input} type: {type(user_input)}")
@@ -35,7 +35,7 @@ if __name__ == "__main__":
     move = player_turn('X', board)
     print(f"Move valid: {move}")
     display_board(board)
-    
+
     move = player_turn('O', board)
     print(f"Move valid: {move}")
     display_board(board)
