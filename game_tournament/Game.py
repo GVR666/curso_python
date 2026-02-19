@@ -78,9 +78,6 @@ def a_tournament():
     players_alemania=['Klose','Ozil','Schurrle','khedira','kroos','krammer','muller','howedes','hummels','boateng','lahm','neuer']
     players_españa=['iniesta','pedro','villa','xavi','busquets','alonso','capdevilla','pique','puyol','ramos','casillas']
 
-
-
-
     sport = Sport("Futbol", 11, "FIFA")
     team_mex = Team("Mexico", sport)
     team_arg = Team("Argentina", sport)
@@ -105,20 +102,20 @@ def a_tournament():
         team_france.add_athlete(Athlete(player))
     for player in players_alemania:
         team_alemania.add_athlete(Athlete(player))
-    for player in players_españa
+    for player in players_españa:
         team_españa.add_athlete(Athlete(player))
+    
+    tournament_list = [team_mex, team_arg, team_peru, team_france, team_españa
+                      ,team_chile,team_alemania,team_brasil]
 
-
-       
-
-
-    game = Game(team_mex, team_arg)
-    game_string = game.to_json()
-    return game_string
-
-
-
-if __name__ == "__main__":
-    string_game = a_game()
-    save_game_to_json(string_game, "game.json")
+    json_string = ""
+    for team in tournament_list:
+            json_string += f"{team.to_json()}\n"
+    json_string = f"[\n{json_string[:-2]}]" # Remove trailing comma and newline
+    return json_string
+        
+        
+if  __name__ == "__main__":
+    string_game = a_tournament()
+    save_game_to_json(string_game, "tournament.json")
     print(string_game)
