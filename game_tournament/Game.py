@@ -41,9 +41,7 @@ class Game:
     def to_json(self):
         """ Convert the Game object to a JSON string. """
         return {
-            "team_a": self.team_a.to_json(),
-            "team_b": self.team_b.to_json(),
-            "score": self.score
+           
         }
 
 def a_game():
@@ -105,17 +103,13 @@ def a_tournament():
     for player in players_españa:
         team_españa.add_athlete(Athlete(player))
     
-    tournament_list = [team_mex, team_arg, team_peru, team_france, team_españa
-                      ,team_chile,team_alemania,team_brasil]
+    tournament_list = [team_mex, team_arg, team_peru, team_brasil, 
+                team_france, team_alemania, team_españa, team_chile]
+    return [team.to_json() for team in tournament_list]
 
-    json_string = ""
-    for team in tournament_list:
-            json_string += f"{team.to_json()}\n"
-    json_string = f"[\n{json_string[:-2]}]" # Remove trailing comma and newline
-    return json_string
-        
         
 if  __name__ == "__main__":
     string_game = a_tournament()
+    print(string_game)
     save_game_to_json(string_game, "tournament.json")
     print(string_game)
