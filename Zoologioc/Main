@@ -1,0 +1,67 @@
+from Animal import cargar_csv_a_dict, guardar_csv, Animal
+
+def ejecutar():
+    # NOMBRES AJUSTADOS PARA TU COMPUTADORA
+    archivo_clases = 'clases.csv.csv'
+    archivo_zoo = 'zoo.csv.csv'
+
+    print("Cargando datos...")
+    datos_c = cargar_csv_a_dict(archivo_clases)
+    
+    if not datos_c:
+        return # Detiene si no encuentra archivos
+
+    dict_clases = {int(c['Clase_id']): c['Clase_tipo'] for c in datos_c}
+    
+    datos_z = cargar_csv_a_dict(archivo_zoo)
+    lista_animales = [Animal(d) for d in datos_z]
+
+    while True:
+        print("\n" + "="*25)
+        print("   SISTEMA ZOOLOGICO")
+        print("="*25)
+        print("1. Listar por Clase")
+        print("2. Listar por Caracteristica")
+        print("3. Agregar Nuevo Animal")
+        print("4. Salir y Guardar")
+        opc = input("\nSeleccione una opcion: ")
+
+        if opc == '1':
+            print("\nCLASES DISPONIBLES:")
+            for cid, tipo in dict_clases.items(): 
+                print(f" {cid}: {tipo}")
+            try:
+                sel = int(input("\nEscriba el ID de la clase: "))
+                res = [a.nombre for a in lista_animales if a.clase_id == sel]
+                print(f"\nRESULTADOS: {', '.join(res) if res else 'No hay animales en esta clase'}")
+            except: 
+                print("\nError: Ingrese solo numeros.")
+
+        elif opc == '2':
+            print("\nEjemplos: pelo, plumas, vuela, acuatico, leche")
+            car = input("Ingrese caracteristica a buscar: ").lower().strip()
+            if lista_animales and car in lista_animales[0].atributos:
+                res = [a.nombre for a in lista_animales if a.atributos.get(car) == 1]
+                print(f"\nAnimales con {car}: {', '.join(res) if res else 'Ninguno'}")
+            else: 
+                print(f"\nLa caracteristica '{car}' no existe.")
+
+        elif opc == '3':
+            print("\n--- REGISTRO DE ANIMAL ---")
+            nuevo = {}
+            for col in lista_animales[0].atributos.keys():
+                valor = input(f" {col}: ")
+                nuevo[col] = valor
+            lista_animales.append(Animal(nuevo))
+            print("\nAnimal agregado a la lista temporal.")
+
+        elif opc == '4':
+            print("\nGuardando cambios en el archivo...")
+            guardar_csv(archivo_zoo, lista_animales)
+            print("¡Hecho! Ya puedes cerrar el programa.")
+            break
+        else:
+            print("\nOpcion no valida.")
+
+if __name__ == "__main__":
+    ejecutar()

@@ -2,11 +2,10 @@ import csv
 
 class Animal:
     def __init__(self, datos):
-        # Limpia espacios y caracteres raros de las llaves y valores
+        # Limpia espacios y quita comillas de los nombres
         self.atributos = {k.strip().replace('\ufeff', ''): (int(v) if v.strip().replace('-','').isdigit() else v.strip().replace('"', '')) 
                          for k, v in datos.items()}
         self.nombre = self.atributos.get('nombre_animal', 'Desconocido')
-        # Buscamos la columna 'clase' sin importar espacios
         self.clase_id = int(self.atributos.get('clase', 0))
 
     def __str__(self):
@@ -18,20 +17,18 @@ class Animal:
 def cargar_csv_a_dict(nombre_archivo):
     lista_datos = []
     try:
-        # 'utf-8-sig' ayuda a eliminar el error del BOM (\ufeff)
         with open(nombre_archivo, mode='r', encoding='utf-8-sig') as f:
             lector = csv.DictReader(f)
             for fila in lector:
-                # Limpiar espacios en las llaves de cada fila
                 fila_limpia = {k.strip(): v for k, v in fila.items() if k is not None}
                 lista_datos.append(fila_limpia)
     except FileNotFoundError:
-        print(f"Error: No se encontró {nombre_archivo}")
+        print(f"\n[ERROR]: No se encontro el archivo: {nombre_archivo}")
     return lista_datos
 
 def guardar_csv(nombre_archivo, lista_animales):
     if not lista_animales: return
-    columnas = lista_animales[0].atributos.keys()
+    columnas = list(lista_animales[0].atributos.keys())
     with open(nombre_archivo, mode='w', encoding='utf-8', newline='') as f:
         escritor = csv.DictWriter(f, fieldnames=columnas)
         escritor.writeheader()
