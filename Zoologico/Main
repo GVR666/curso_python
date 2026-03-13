@@ -1,4 +1,4 @@
-from funciones import cargar_csv, guardar_csv, Animal
+from Animal import cargar_csv, guardar_csv, Animal
 
 def menu():
     print("\n--- MENÚ ZOOLOGICO ---")
