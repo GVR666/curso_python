@@ -1,0 +1,35 @@
+import csv
+
+class Animal:
+    def __init__(self, datos_dict):
+        # Convierte valores a int si son numéricos para facilitar filtros
+        self.atributos = {k: (int(v) if v.replace('-','').isdigit() else v) for k, v in datos_dict.items()}
+        self.nombre = self.atributos.get('nombre_animal', 'Desconocido')
+        self.clase_id = int(self.atributos.get('clase', 0))
+
+    def __str__(self):
+        return f"Animal: {self.nombre} (Clase: {self.clase_id})"
+
+    def __repr__(self):
+        return f"Animal(nombre='{self.nombre}', clase={self.clase_id})"
+
+def cargar_csv(nombre_archivo):
+    datos = []
+    try:
+        with open(nombre_archivo, mode='r', encoding='utf-8-sig') as f:
+            lector = csv.DictReader(f)
+            for fila in lector:
+                datos.append(fila)
+    except FileNotFoundError:
+        print(f"Error: No se encontró {nombre_archivo}")
+    return datos
+
+def guardar_csv(nombre_archivo, lista_objetos):
+    if not lista_objetos:
+        return
+    encabezados = lista_objetos[0].atributos.keys()
+    with open(nombre_archivo, mode='w', encoding='utf-8', newline='') as f:
+        escritor = csv.DictWriter(f, fieldnames=encabezados)
+        escritor.writeheader()
+        for obj in lista_objetos:
+            escritor.writerow(obj.atributos)

@@ -1,0 +1,52 @@
+from funciones import cargar_csv, guardar_csv, Animal
+
+def menu():
+    print("\n--- MENÚ ZOOLOGICO ---")
+    print("1. Listar por Clase")
+    print("2. Listar por Característica")
+    print("3. Agregar Animal")
+    print("4. Salir y Guardar")
+    return input("Seleccione: ")
+
+def ejecutar():
+    # Carga inicial
+    res_clases = cargar_csv('clases.csv')
+    dict_clases = {int(c['Clase_id']): c['Clase_tipo'] for c in res_clases}
+    
+    res_zoo = cargar_csv('zoo.csv')
+    lista_animales = [Animal(d) for d in res_zoo]
+
+    while True:
+        opc = menu()
+        
+        if opc == '1':
+            for cid, tipo in dict_clases.items():
+                print(f"{cid}: {tipo}")
+            try:
+                sel = int(input("ID de clase: "))
+                filtrados = [a.nombre for a in lista_animales if a.clase_id == sel]
+                print(f"Resultados: {', '.join(filtrados) if filtrados else 'Sin datos'}")
+            except: print("Entrada inválida")
+
+        elif opc == '2':
+            caract = input("Característica (pelo, plumas, vuela, etc): ").lower()
+            if lista_animales and caract in lista_animales[0].atributos:
+                filtrados = [a.nombre for a in lista_animales if a.atributos.get(caract) == 1]
+                print(f"Animales con {caract}: {', '.join(filtrados)}")
+            else: print("Característica no existe.")
+
+        elif opc == '3':
+            nuevo_dep = {}
+            for col in lista_animales[0].atributos.keys():
+                val = input(f"{col}: ")
+                nuevo_dep[col] = val
+            lista_animales.append(Animal(nuevo_dep))
+            print("Agregado con éxito.")
+
+        elif opc == '4':
+            guardar_csv('zoo.csv', lista_animales)
+            print("Datos guardados. Adiós.")
+            break
+
+if __name__ == "__main__":
+    ejecutar()
