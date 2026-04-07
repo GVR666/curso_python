@@ -1,15 +1,19 @@
-
+""" book_functions.py
+    Contains functions to work with Book objects
+"""
 
 from Book import Book
 from Book import load_books
 
 def get_genres(books:list[Book])->list[str]:
+    """Get all unique genres from a list of Book objects"""
     genres = set()
     for book in books:
         genres.add(book.genre)
     return sorted(list(genres))
 
 def create_author_dictionary(books:list[Book])->dict[str,list[Book]]:
+    """Create a dictionary of authors and their books"""
     author_dict = {}
     for book in books:
         if book.author.lower() not in author_dict:
@@ -25,6 +29,7 @@ def create_author_dictionary(books:list[Book])->dict[str,list[Book]]:
     return author_dict
 
 def create_book_dictionary(book_list:list)->dict[str,Book]:
+    """Create a dictionary of books and their ids"""
     book_dict = {}
     for book in book_list:
         book_dict[book.id] = book

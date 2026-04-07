@@ -1,4 +1,3 @@
-
 from flask import Flask, render_template, request
 from Book import Book, load_books 
 from book_functions import create_author_dictionary, create_book_dictionary
@@ -12,7 +11,7 @@ book_dict = create_book_dictionary(books)
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('new_index.html')
 
 @app.route('/search_by_author', methods=['GET', 'POST'])
 def search_by_author():
@@ -27,7 +26,7 @@ def search_by_author():
 def book_detail(book_id):
     book = book_dict.get(book_id)
     #print(book)
-    return render_template('book_detail.html', book=book)
+    return render_template('card.html', book=book)
 
         
 if __name__ == '__main__':
