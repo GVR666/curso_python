@@ -1,13 +1,13 @@
 {% extends "base.html" %}
-{% block title %}Libra Online Library - Search by Author{% endblock %}
+{% block title %}Libra Online Library - Search by Title{% endblock %}
 
 {% block body %}
 <div style="max-width: 800px; margin: 0 auto; text-align: center; padding-top: 50px;">
-    <h1>Search by Author</h1>
+    <h1>Search by Title</h1>
     
-    <form action="/search_by_author" method="post" style="margin-bottom: 30px;">
-        <label for="author">Author:</label>
-        <input type="text" id="author" name="author" style="padding: 5px; width: 250px;">
+    <form action="/search_by_title" method="post" style="margin-bottom: 30px;">
+        <label for="title">Title or Keyword:</label>
+        <input type="text" id="title" name="title" style="padding: 5px; width: 250px;">
         <input type="submit" value="Search" style="padding: 5px 15px; cursor: pointer;">
     </form>
 
@@ -20,7 +20,7 @@
             <span style="color: #555;">by {{ book.author }}</span>
         </li>
         {% else %}
-        <p>No se encontraron libros de este autor.</p>
+        <p>No se encontraron libros con ese título.</p>
         {% endfor %}
     </ul>
 </div>

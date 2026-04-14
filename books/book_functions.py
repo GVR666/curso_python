@@ -27,6 +27,31 @@ def create_author_dictionary(books:list[Book])->dict[str,list[Book]]:
                     author_dict[name] = []
                 author_dict[name].append(book)
     return author_dict
+def create_title_dictionary(books: list[Book]) -> dict[str, list[Book]]:
+    """Crea un diccionario de palabras clave de títulos y sus libros"""
+    title_dict = {}
+    for book in books:
+        # Pasamos a minúsculas y dividimos el título en palabras
+        words = book.title.lower().split(" ")
+        
+        # También guardamos el título completo por si buscan exacto
+        full_title = book.title.lower()
+        if full_title not in title_dict:
+            title_dict[full_title] = []
+        title_dict[full_title].append(book)
+
+        # Guardamos cada palabra individualmente
+        for word in words:
+            # Limpiamos un poco la palabra (quitar comas o puntos si quieres)
+            clean_word = word.strip(".,()!?:")
+            if clean_word not in title_dict:
+                title_dict[clean_word] = []
+            
+            # Evitamos duplicados si la palabra ya agregó el libro
+            if book not in title_dict[clean_word]:
+                title_dict[clean_word].append(book)
+                
+    return title_dict
 
 def create_book_dictionary(book_list:list)->dict[str,Book]:
     """Create a dictionary of books and their ids"""
