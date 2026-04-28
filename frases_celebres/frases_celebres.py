@@ -78,10 +78,24 @@ def buscar_palabras(frases:list, frase_a_buscar:str)->list:
     for frase in frases:
         frase_lower = frase.frase.lower()
         ratio = Levenshtein.ratio(frase_lower, frase_a_buscar)
-        if ratio >=0.80:
+        if ratio >=0.50:
             frase.ratio = ratio
             frases_encontradas.append(frase)
     return frases_encontradas
+
+def buscar_palabras_ratio(frases:list, frase_a_buscar:str,umbral:float=0.50)->list:
+
+    """ Busca una frase en una lista de frases """
+    frases_encontradas = []
+    frase_a_buscar = frase_a_buscar.lower()
+    for frase in frases:
+        frase_lower = frase.frase.lower()
+        ratio = Levenshtein.ratio(frase_lower, frase_a_buscar)
+        if ratio >=umbral:
+            frase.ratio = ratio
+            frases_encontradas.append(frase)
+    return frases_encontradas
+
 
 if __name__ == "__main__":
     frases = carga_archivo_csv("frases_consolidadas.csv")
@@ -92,7 +106,7 @@ if __name__ == "__main__":
     for frase in lista_frase_amor:
         print(frase)
     print("############ Levensthein ############")
-    lista_frase_amor = buscar_palabras(frases, "la vida y la muerte")
+    lista_frase_amor = buscar_palabras(frases, "Las palabras nos pueden hacer infinitamente ")
     for frase in lista_frase_amor:
         print(frase, frase.ratio)
     
