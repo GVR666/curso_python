@@ -1,0 +1,8 @@
+Flask==3.0.2
+requests==2.31.0
+beautifulsoup4==4.12.3
+Levenshtein==0.25.0
+markitdown==0.0.1a3
+pytesseract==0.3.10
+pdf2image==1.17.0
+Pillow==10.2.0

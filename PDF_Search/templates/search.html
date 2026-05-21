@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Resultados para: {{ query }}</h2>
+<form action="/search" method="GET" class="mb-4 row">
+    <div class="col-9"><input type="text" name="query" value="{{ query }}" class="form-control"></div>
+    <div class="col-3"><input type="range" name="threshold" min="0" max="1" step="0.1" value="{{ threshold }}" class="form-range"></div>
+    <button class="btn btn-dark mt-2">Refinar Búsqueda</button>
+</form>
+{% for res in results %}
+<div class="card mb-2 p-3">
+    <h6>{{ res.filename }} ({{ res.percentage }}% coincidencia)</h6>
+    <p class="small text-muted">{{ res.text }}</p>
+    <a href="{{ res.url }}" target="_blank">Ver PDF</a>
+</div>
+{% endfor %}
+{% endblock %}
